@@ -46,12 +46,21 @@ void kmain(void)
 	j = 1;
 	i = j;
 
-	uart_putc('A');
-	uart_putc('B');
-    uart_putc('A');
-    uart_putc('B');
-    uart_putc('A');
-    uart_putc('B');
+	uart_putc('O');
+	uart_putc('S');
+	uart_putc('P');
+	uart_putc('R');
+	uart_putc('O');
+	uart_putc('J');
+	uart_putc('E');
+	uart_putc('C');
+	uart_putc('T');
+	uart_putc(' ');
+	uart_putc('T');
+	uart_putc('E');
+	uart_putc('S');
+	uart_putc('T');
+	uart_putc('!');
 
 	while(1)
 	{
