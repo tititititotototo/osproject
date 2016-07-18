@@ -1,10 +1,5 @@
 #include <s5pv310.h>
 #include <smdkc210.h>
-@#include <kernel.h>
-
-@#define pWTCON    0x0
-@#define INTMSK    0x0
-@#define INTSUBMSK 0x0
 
 .globl _start
 
@@ -13,25 +8,9 @@ _start:
 	b reset
 	.balignl 16,0xdeadbeef
 
-@.global except_vec_start
-@.global except_vec_end
 
-
-@.align 4
-@except_vec_start:
-    @ldr     pc, reset_addr
-    @b       .
-    @b       .
-    @b       .
-    @b       .
-    @b       .
-    @ldr     pc, irq_addr
-    @b       .
-
-    reset_addr:         .word reset
-    irq_addr:           .word irq
-@except_vec_end:
-
+reset_addr:         .word reset
+irq_addr:           .word irq
 
 reset:
 	mov     r1, #0xC0 | 0x13
@@ -54,7 +33,7 @@ reset:
 	@ldr r0,=INTSUBMSK
 	@str r1,[r0]
 
-	bl      init_cpu
+	@bl      init_cpu
 	@bl		init_stack
 	bl      init_wdt
 	bl		init_clock
@@ -68,8 +47,6 @@ reset:
     ldr     pc, =osload
     b       .
 
-@1: b 1b
-
 irq:
 	b .
 
@@ -81,28 +58,28 @@ init_cpu:
     msr     cpsr, r0
 
 	/* disable mmu */
-	mrc     p15, 0, r0, c1 ,c0 ,0
-	bic     r0, r0, #(1 << 0)
-	mcr     p15, 0, r0, c1, c0, 0
+	@mrc     p15, 0, r0, c1 ,c0 ,0
+	@bic     r0, r0, #(1 << 0)
+	@mcr     p15, 0, r0, c1, c0, 0
 
 	@bl		cache_init
     /* enable	 I-C2che */
-	mrc	    p15, 0, r0, c1, c0, 0
-	orr     r0, r0, #(1 << 12)
-	mcr     p15, 0, r0, c1, c0, 0
+	@mrc	    p15, 0, r0, c1, c0, 0
+	@orr     r0, r0, #(1 << 12)
+	@mcr     p15, 0, r0, c1, c0, 0
 
     /* enable coprocessors */
-	ldr     r0, =0xffffffff
-	mcr     p15, 0, r0, c1, c0, 2
+	@ldr     r0, =0xffffffff
+	@mcr     p15, 0, r0, c1, c0, 2
 
     /* globally enable NEON & VFP */
 	@mov     r0, #0x40000000
 	@fmxR    FPEXC, r0
 
     /* enable branch prediction */
-	mrc     p15, 0, r0, c1, c0, 0
-	orr     r0, r0, #(1 << 11)
-	mcr     p15, 0, r0, c1, c0, 0
+	@mrc     p15, 0, r0, c1, c0, 0
+	@orr     r0, r0, #(1 << 11)
+	@mcr     p15, 0, r0, c1, c0, 0
 
 	mov     pc, lr
 
@@ -557,9 +534,6 @@ init_clock:
 
     mov     pc, lr
 
-
-
-
 init_uart:
     /* set GPIO to enable UART */
     @ GPIO setting for UART for UART0/1
@@ -604,8 +578,7 @@ init_uart:
     @mcr     p15, 0, r0, c12, c0, 0    
     @mov     pc, lr
 
-osload:
-	
+osload:	
 	ldr r0,_OS_ROM_BASE
 	ldr r1,_OS_RAM_BASE
 	ldr r2,_OS_END
@@ -616,6 +589,7 @@ copy_loop:
 	cmp r0,r2
 	blt copy_loop	
 
+jumpToOS:
 	ldr pc,_OS_RAM_BASE
 	@ldr pc,_OS_ROM_BASE
 	.balign 4
