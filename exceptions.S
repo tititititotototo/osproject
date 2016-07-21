@@ -35,4 +35,7 @@ coreSWIHandler:
 
 .globl coreIRQHandler
 coreIRQHandler:
-1:	b 1b
+	sub r14,r14,#4
+	stmfd r13!,{r0-r3,r12,r14}
+	bl eventsIRQHandler
+	ldmfd r13!,{r0-r3,r12,pc}^
