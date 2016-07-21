@@ -1,10 +1,8 @@
 #include <s5pv310.h>
+#include <uart.h>
+#include <timer.h>
+#include <system.h>
 
-// uart include
-void uart_putc(char ch);
-void uart_puts(const char *s);
-void uart_puthex(const unsigned int value);
-void uart_puthexnl (const unsigned int value);
 
 void eventsSWIHandler(unsigned int syscallnum);
 
@@ -62,13 +60,23 @@ void kmain(void) {
 	uart_puts("PC :");
 	uart_puthexnl(pc);
 
-	while(loopCnt < 16)
+	InitInterrupt();
+	timer_init();
+	local_irq_enable();
+	
+	while(loopCnt < 20)
 	{
 		int i;
 		syscall();
 		for(i=0;i<0x100000;i++); //Delay
 		loopCnt++;		
 	}
+
+	local_irq_disable();
+
+	// InitInterrupt();
+	// timer_init();
+	// local_irq_enable();
 
 	while(1);
 }

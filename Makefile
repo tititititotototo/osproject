@@ -23,7 +23,7 @@ start.o: start.S
 
 #KERNEL
 
-KERNEL_OBJ = head.o main.o mmusetup_2.o uart.o exceptions.o swihandler.o
+KERNEL_OBJ = head.o main.o mmusetup_2.o uart.o exceptions.o swihandler.o irqhandler.o timer.o 
 
 cuteOS.bin.o : cuteOS
 	arm-none-eabi-ld -b binary cuteOS.bin -r -o cuteOS.bin.o
