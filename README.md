@@ -1,5 +1,7 @@
 cute_os : 2016 OsProject 2nd project  
   
+Chapter 7-3 . Task0, Task1 Shared Region  
+
 Memory Map  
 
 PADDR  
