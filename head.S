@@ -45,11 +45,6 @@ coreInitialize:
 stack_setup:	
 	msr cpsr_c,#NOINT | SVC32MOD
 
-	@mov r0,=STACK
-	@ldr r0,_STACK_ADDR_BASE
-	@mov r1,#8192
-	@add sp,r0,r1
-
 	@ SVCStack L2PT1 Mem End 
 	mov r0,#0x100000	
 	sub sp,r0,#4	
@@ -69,6 +64,3 @@ stack_setup:
 	msr cpsr_c,#NOINT | SVC32MOD
 	
 	ldr pc,=kmain
-
-@_STACK_ADDR_BASE:
-	@.word STACK_ADDR_BASE
