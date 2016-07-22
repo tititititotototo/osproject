@@ -589,6 +589,28 @@ copy_loop:
 	cmp r0,r2
 	blt copy_loop	
 
+task0load:
+	ldr r0,=_task0_start
+	ldr r1,=(OS_RAM_BASE+0x100000) @ 0x40200000
+	ldr r2,=_task0_end
+
+1:
+	ldr r3,[r0],#4
+	str r3,[r1],#4
+	cmp r0,r2
+	blt 1b
+
+task1load:
+	ldr r0,=_task1_start
+	ldr r1,=(OS_RAM_BASE+0x200000) @ 0x40300000
+	ldr r2,=_task1_end
+
+1:
+	ldr r3,[r0],#4
+	str r3,[r1],#4
+	cmp r0,r2
+	blt 1b
+
 jumpToOS:
 	ldr pc,_OS_RAM_BASE
 	@ldr pc,_OS_ROM_BASE
