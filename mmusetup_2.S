@@ -38,7 +38,7 @@
 #define MMU1_TEMP1SECBASE (0x40100000 | L1_AP(0x1) | L1_DOMAIN(0x3) | L1_SBZ_4BIT | L1_CACHE_ENABLE | L1_SECTION_PAGE)
 #define PTSECBASE  (L1PT | L1_AP(0x1) | L1_DOMAIN(0x3) | L1_SBZ_4BIT | L1_CACHE_ENABLE | L1_SECTION_PAGE)
 
-#define DOMAINVAL DOMVAL(DOM_MANAGER,0x3)
+#define DOMAINVAL DOMVAL(DOM_CLIENT,0x3)
 @#define DOMAINVAL  0x000000C0
 
 @@ SP5C210 MEM MAP @@ 
@@ -93,24 +93,26 @@ mmu_map_kernel:
 
 	str r2,[r0]            @ VA 0x40100000 <- CuteOS
 
-mmu_map_l1page: 
-	ldr r0,=L1PT	
-	ldr r1,=L2PT1
-	ldr r2,=MMU1_1SECBASE
-1:	
-	str r2,[r0],#4
-	cmp r0,r1
-	addlt r2,r2,#0x100000  @ += 1MB SECTION
-	blt 1b
+@ TestCode - All Region Section Mapping..
 
-mmu_map_l1_temp:	
-	ldr r0,=L1PT
-	ldr r2,=MMU1_TEMP1SECBASE
-	str r2,[r0]
+@mmu_map_l1page: 
+@	ldr r0,=L1PT	
+@	ldr r1,=L2PT1
+@	ldr r2,=MMU1_1SECBASE
+@1:	
+@	str r2,[r0],#4
+@	cmp r0,r1
+@	addlt r2,r2,#0x100000  @ += 1MB SECTION
+@	blt 1b
 
-	add r0,r0,#0x1000
-	add r0,r0,#4	
-	str r2,[r0]
+@mmu_map_l1_temp:	
+@	ldr r0,=L1PT
+@	ldr r2,=MMU1_TEMP1SECBASE
+@	str r2,[r0]
+
+@	add r0,r0,#0x1000
+@	add r0,r0,#4	
+@	str r2,[r0]
 
 @ SFR ADDR MAPPING
 @ PA 0x10000000 ~ 0x14000000 ---> VA 0xF0000000 ~ 0xFFFFFFFF
