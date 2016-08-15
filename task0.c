@@ -36,7 +36,6 @@ int main(void) {
 			local_irq_disable();
 			SUM_LOCK = 1;
 			local_irq_enable();
-			uart_puts("T1\n ");
 			break;		
 		}
 
