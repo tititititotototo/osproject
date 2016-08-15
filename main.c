@@ -57,7 +57,7 @@ void kmain(void) {
 
 	uart_puts("IAMROOT OS PROJECT 2016!!\n");
 	uart_puts("S5PC210 MMU Enable Verison!!\n");
-	uart_puts("Chapter 7-3. Jump2Task0!! Task0, Task1 Shared Region\n");
+	uart_puts("Chapter 8-1. Task0, Task1, Mutex Flag\n");
 
 	pc = get_pc();
 	sp = get_sp();
