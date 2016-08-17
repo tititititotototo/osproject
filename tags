@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+_OS_END	start.S	/^_OS_END:$/;"	l
+_OS_RAM_BASE	start.S	/^_OS_RAM_BASE:$/;"	l
+_OS_ROM_BASE	start.S	/^_OS_ROM_BASE:$/;"	l
+_start	start.S	/^_start:$/;"	l
+copy_loop	start.S	/^copy_loop:$/;"	l
+init_clock	start.S	/^init_clock:$/;"	l
+init_cpu	start.S	/^init_cpu:$/;"	l
+init_gpio	start.S	/^init_gpio:$/;"	l
+init_memory	start.S	/^init_memory:$/;"	l
+init_uart	start.S	/^init_uart:$/;"	l
+init_wdt	start.S	/^init_wdt:$/;"	l
+irq	start.S	/^irq:$/;"	l
+irq_addr	start.S	/^irq_addr:           .word irq$/;"	l
+jumpToOS	start.S	/^jumpToOS:$/;"	l
+osload	start.S	/^osload:	$/;"	l
+reset	start.S	/^reset:$/;"	l
+reset_addr	start.S	/^reset_addr:         .word reset$/;"	l
+task0load	start.S	/^task0load:$/;"	l
+task1load	start.S	/^task1load:$/;"	l
