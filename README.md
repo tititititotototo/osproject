@@ -2,7 +2,7 @@ cute_os : 2016 OsProject 2nd project
 
 Test
 
-Chapter 9_1 : Task0 Task1 ,Round Robin (Time Slice)
+Chapter 9_2 : TimerList
 
 
 Memory Map  
