@@ -1,6 +1,6 @@
 cute_os : 2016 OsProject 2nd project  
 
-Chapter 8_1 : Task0 Task1 , Mutex Flag
+Chapter 8-2. Task0, Task1~15, Task Seq Run
 
 Memory Map  
 
