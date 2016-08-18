@@ -1,6 +1,6 @@
 cute_os : 2016 OsProject 2nd project  
 
-Chapter 8_1 : Task0 Task1 , Mutex Flag
+Chapter 9_1 : Task0 Task1 ,Round Robin (Time Slice)
 
 Memory Map  
 
