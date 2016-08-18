@@ -1,4 +1,5 @@
 //uart.c
+#include <uart.h>
 
 typedef struct {
 
@@ -20,7 +21,7 @@ typedef struct {
 void uart_putc(char ch) {    
 
     //S5PC11X_UART *const uart = (S5PC11X_UART *)0x13800000;
-    S5PC11X_UART *const uart = (S5PC11X_UART *)0xF3800000;
+    S5PC11X_UART *const uart = (S5PC11X_UART *)UART_BASE; //0xF3800000
 
     while (!(uart->UTRSTAT & 0x2));
 
