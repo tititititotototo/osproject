@@ -20,3 +20,14 @@
         :                   \ 
         :"memory","cc");    \
 })
+
+//SystemCall Alarm (0x80)
+
+#define alarm(n)           \
+({                         \
+    unsigned int time = n; \
+    __asm__ __volatile__ ( \
+    "mov r1,%0\n"          \    
+    "swi 0x80"             \
+    ::"r"(time):"r1");     \
+})

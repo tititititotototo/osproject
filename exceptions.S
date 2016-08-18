@@ -33,6 +33,7 @@ coreSWIHandler:
 	ldr r10,[lr,#-4]
 	bic r10,r10,#0xFF000000
 	mov r0,r10
+	mov r1,r1    @ alarm time (arg1)
 	
 	bl eventsSWIHandler
 	

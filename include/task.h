@@ -7,5 +7,7 @@ typedef struct _process_state {
 	unsigned int need_resched;
 	unsigned int prior;
 	struct _process_state *next;
+	unsigned int expires;
 } process_state;
 	
+void schedule(void);

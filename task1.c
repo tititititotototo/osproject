@@ -5,16 +5,21 @@
 
 static volatile int count1 = 0;
 
-int main(unsigned int arg) {
+int main(unsigned int arg) 
+{
+	int i = arg;
 
 	while(1)
 	{
-		int i;
-		for(i=0;i<0x10000;i++);		
-		local_irq_disable();
 		uart_putc('a'+arg);
-		local_irq_enable();					
+		i--;
 
-		if (count1++ > 1500) return;
+		if(i<=0) 
+		{
+			i = arg;
+			alarm(16-arg);
+		}
+
+		//if (count1++ > 1500) return;
 	}  
 }

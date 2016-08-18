@@ -1,6 +1,7 @@
 #include <task.h>
 #include <null.h>
 #include <prior-queue.h>
+#include <timer-list.h>
 
 process_state process[16];
 process_state* current;
@@ -11,6 +12,8 @@ priorQ pQ[2];
 priorQ *active;
 priorQ *expired;
 
+
+timer_list tlist;
 // Context Frame 
 //CPSR
 //PC
@@ -21,6 +24,8 @@ priorQ *expired;
 
 void init_task(void)
 {
+	int i;
+
 	current = &process[0];
 	next = current;
 
@@ -32,25 +37,37 @@ void init_task(void)
 	process[0].time_remain = 10; // Time Remain
 	process[0].time_slice = 10; // Time Slice
 	process[0].need_resched = 0; // need sched
-	process[0].prior = 0; // prior 0
+	process[0].prior = 15; // prior 15
 	process[0].next = NULL; // next NULL
+	process[0].expires = 0; // expires 
 
+	process[1].context[0+2] = 1; //ARG
+	process[1].context[13+2] = 0x408000; //SP
+	process[1].context[1] = 0x400000; // PC
+	process[1].context[0] = 0x5F; // CPSR
+	process[1].pid = 1; // pid
+	process[1].time_remain = 10; // Time Remain
+	process[1].time_slice = 10; // Time Slice
+	process[1].need_resched = 0; // need sched
+	process[1].prior = 0; // prior 0
+	process[1].next = NULL; // next NULL
+	process[1].expires = 0; // expires 
+	
+	for(i=2;i<16;i++)
 	{
-		int i;
-		for(i=1;i<16;i++)
-		{
-			process[i].context[0+2] = i; //ARG
-			process[i].context[13+2] = 0x408000; //SP
-			process[i].context[1] = 0x400000; // PC
-			process[i].context[0] = 0x5F; // CPSR
-			process[i].pid = i; // pid
-			process[i].time_remain = i; // Time Remain
-			process[i].time_slice = i; // Time Slice
-			process[i].need_resched = 0; // need sched
-			process[i].prior = 0; // prior 0
-			process[i].next = NULL; // next NULL
-		}
+		process[i].context[0+2] = i; //ARG
+		process[i].context[13+2] = 0x408000; //SP
+		process[i].context[1] = 0x400000; // PC
+		process[i].context[0] = 0x5F; // CPSR
+		process[i].pid = i; // pid
+		process[i].time_remain = i; // Time Remain
+		process[i].time_slice = i; // Time Slice
+		process[i].need_resched = 0; // need sched
+		process[i].prior = i-1; // prior 0
+		process[i].next = NULL; // next NULL
+		process[i].expires = 0; // expires 
 	}
+	
 
 	initpriorQ(&pQ[0]);
 	initpriorQ(&pQ[1]);
@@ -58,11 +75,11 @@ void init_task(void)
 	active = &pQ[0];
 	expired = &pQ[1];
 
-	{
-		int i;
-		for(i=1;i<16;i++)
-			enpriorQ(active,&process[i]);
-	}
+	for(i=1;i<16;i++)
+		enpriorQ(active,&process[i]);
+
+	init_timer_list(&tlist);
+	
 }
 
 #define MASTERL1PT (unsigned int *)(0x100000)
@@ -75,17 +92,7 @@ static int count = 0;
 void schedule(void)
 {	
 	current = depriorQ(active);
-
-	if(current == NULL) {
-		priorQ * tmp;
-		tmp = active;
-		active = expired;
-		expired = tmp;
-		current = depriorQ(active);
-	}
-
 	next = current;
-
 	flush_cache_tlb();
 
 	//uart_puthexnl(next);
