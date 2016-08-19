@@ -8,7 +8,8 @@ int main(unsigned int arg)
 {
 	int i = arg;
 
-	while(1);
+	while(1)
+	{	uart_putc('@'); }
 	// {
 	// 	uart_putc('a'+arg);
 	// 	i--;

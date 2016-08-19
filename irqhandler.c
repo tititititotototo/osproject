@@ -40,10 +40,15 @@ void eventsIRQHandler(void)
 
     jiffies++;
     current->time_remain --;
+    //uart_puthexnl(current->time_remain);
     if (current->time_remain <= 0) 
     {
         current->time_remain = current->time_slice;     
         current->need_resched = 1;
+        
+        uart_puthexnl(current);
+        //uart_puthexnl(active->num);
+        uart_puthexnl(current->time_remain);
     }
 
     isrTable[irq]();
@@ -55,7 +60,12 @@ void eventsIRQHandler(void)
         pps = remove_timer_list(&tlist,jiffies);
 
         if((pps == NULL) || (pps == (process_state*)(-1)))
+        {
+            // uart_putc('@');
+            //uart_puthexnl(current->time_remain);
+            //uart_puthexnl(current);
             goto sched;
+        }
 
         enpriorQ(active,pps);
 
@@ -66,6 +76,7 @@ void eventsIRQHandler(void)
 sched:
     if (current->need_resched == 1) 
     {
+        uart_putc('^');
         current->need_resched = 0;
         enpriorQ(active,current);
         schedule();

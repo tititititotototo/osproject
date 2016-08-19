@@ -4,7 +4,7 @@
 #include <timer-list.h>
 
 process_state process[16];
-process_state* current;
+volatile process_state* current;
 process_state *prev,*next;
 unsigned int pid = 0;
 
@@ -75,8 +75,14 @@ void init_task(void)
 	active = &pQ[0];
 	expired = &pQ[1];
 
-	for(i=1;i<16;i++)
+
+	uart_puthexnl(&process[0]);
+
+	for(i=1;i<16;i++){
 		enpriorQ(active,&process[i]);
+		uart_puthexnl(&process[i]);
+		uart_puthexnl(active->num);
+	}
 
 	init_timer_list(&tlist);
 	
@@ -92,6 +98,27 @@ static int count = 0;
 void schedule(void)
 {	
 	current = depriorQ(active);
+	
+	//uart_puthexnl(current);
+	//uart_puthexnl(active->num);
+	uart_puts("pid");
+	uart_puthexnl(current->pid);
+	uart_puthexnl(current->time_remain);
+	
+	if (current->pid == 0)
+	{
+		uart_puthexnl(current->time_slice);
+		uart_puthexnl(current->prior);
+		uart_puthexnl(current->context[0]);
+		uart_puthexnl(current->context[1]);
+		uart_puthexnl(current->context[2]);
+		uart_puthexnl(current->context[15]);
+
+	}
+
+	if(current == NULL)
+		uart_putc('&');
+
 	next = current;
 	flush_cache_tlb();
 

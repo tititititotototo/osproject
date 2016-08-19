@@ -20,6 +20,7 @@ void eventsSWIHandler(unsigned int syscallnum,unsigned int arg1)
 
 	if(current->need_resched == 1)
 	{
+		uart_putc('*');
 		current->need_resched = 0;
 		schedule();
 	}	
