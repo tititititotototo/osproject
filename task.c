@@ -52,8 +52,20 @@ void init_task(void)
 	process[1].prior = 0; // prior 0
 	process[1].next = NULL; // next NULL
 	process[1].expires = 0; // expires 
+
+	process[2].context[0+2] = 2; //ARG
+	process[2].context[13+2] = 0x408000; //SP
+	process[2].context[1] = 0x400000; // PC
+	process[2].context[0] = 0x5F; // CPSR
+	process[2].pid = 2; // pid
+	process[2].time_remain = 10; // Time Remain
+	process[2].time_slice = 10; // Time Slice
+	process[2].need_resched = 0; // need sched
+	process[2].prior = 0; // prior 0
+	process[2].next = NULL; // next NULL
+	process[2].expires = 0; // expires 
 	
-	for(i=2;i<16;i++)
+	for(i=3;i<16;i++)
 	{
 		process[i].context[0+2] = i; //ARG
 		process[i].context[13+2] = 0x408000; //SP
@@ -95,8 +107,8 @@ void schedule(void)
 	next = current;
 	flush_cache_tlb();
 
-	//uart_puthexnl(next);
-	//uart_puthexnl(pid);
+	uart_puthexnl(current);
+	uart_puthexnl(current->pid);
 
 	if(current->pid == 0) mmu_map_l2pt(MASTERL1PT+4,TASK0L2PTBASE);
 	else if (current->pid==1) mmu_map_l2pt(MASTERL1PT+4,TASK1L2PTBASE);

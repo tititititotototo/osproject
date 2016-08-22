@@ -67,7 +67,7 @@ sched:
     if (current->need_resched == 1) 
     {
         current->need_resched = 0;
-        enpriorQ(active,current);
+        //enpriorQ(active,current);
         schedule();
     }   
 }

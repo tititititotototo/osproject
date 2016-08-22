@@ -3,6 +3,8 @@
 #include <interrupt.h>
 #include <timer.h>
 #include <system.h>
+#include <task.h>
+#include <prior-queue.h>
 
 #define TASK0L2PT (unsigned int *)(0x100000 + 0x4400)
 #define TASK1L2PT (unsigned int *)(0x100000 + 0x4800)
@@ -60,7 +62,7 @@ void kmain(void) {
 
 	uart_puts("IAMROOT OS PROJECT 2016!!\n");
 	uart_puts("S5PC210 MMU Enable Verison!!\n");
-	uart_puts("Chapter 9_2 : Timer_List\n");
+	uart_puts("Chapter 10_1 : SLEEPON,WAKEUP\n");
 
 	pc = get_pc();
 	sp = get_sp();
@@ -114,6 +116,11 @@ void kmain(void) {
 	uart_puts("Jump To Task0\n");
 	*(volatile unsigned int *)(0x200000) = 0;  // Phys Addr 0x40400000 Access
 	*(volatile unsigned int *)(0x200004) = 1;  // Phys Addr 0x40400000 Access
+
+	{
+		priorQ * psum_waitq = (priorQ *)(0x200008);
+		initpriorQ(psum_waitq);
+	}
 
 	jump2task0(); // Jump To 0x40000, Phys Addr 0x40200000 Access
 	

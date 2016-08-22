@@ -6,8 +6,6 @@ static volatile int count0 = 0;
 
 int main(unsigned int arg) 
 {
-	int i = arg;
-
 	while(1);
 	// {
 	// 	uart_putc('a'+arg);
