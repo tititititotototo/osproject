@@ -43,6 +43,7 @@ void eventsIRQHandler(void)
     if (current->time_remain <= 0) 
     {
         current->time_remain = current->time_slice;     
+        enpriorQ(expired,current);
         current->need_resched = 1;
     }
 

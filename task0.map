@@ -1,0 +1,15 @@
+00080000 N _stack
+00400000 T main
+00400014 T uart_putc
+00400064 T uart_puts
+004000a8 T uart_puthex
+00400164 T uart_puthexnl
+0040018c B __bss_start
+0040018c B __bss_start__
+0040018c T __data_start
+0040018c T _edata
+0040018c b count0
+00400190 B __bss_end__
+00400190 B __end__
+00400190 B _bss_end__
+00400190 B _end

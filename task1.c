@@ -20,67 +20,69 @@ int main(unsigned int arg)
 	uart_putc('@');
 	uart_puthexnl(arg);
 
-	if(arg > 2) while(1);
+	while(1);
+
+	//if(arg > 2) while(1);
 
 	
 
-	while(1)
-	{
-		while(1)
-		{
-			local_irq_disable();
+	// while(1)
+	// {
+	// 	while(1)
+	// 	{
+	// 		local_irq_disable();
 
-			if(SUM_LOCK == 1) 
-			{
-				SUM_LOCK = 0;
-				local_irq_enable();
-				break;
-			}
+	// 		if(SUM_LOCK == 1) 
+	// 		{
+	// 			SUM_LOCK = 0;
+	// 			local_irq_enable();
+	// 			break;
+	// 		}
 
-			SLEEP_ON(psum_waitq);
-			local_irq_enable();
+	// 		SLEEP_ON(psum_waitq);
+	// 		local_irq_enable();
 			
-		}
+	// 	}
 
 
 
-		tmp_sum = SUM;
+	// 	tmp_sum = SUM;
 
-		if(tmp_sum >= 0x100000)
-		{
-			local_irq_disable();
-			SUM_LOCK = 1;			
-			WAKE_UP(psum_waitq);
-			local_irq_enable();
-			uart_putc('%');
-			uart_puthexnl(tmp_sum);
-			break;
-		}
+	// 	if(tmp_sum >= 0x100000)
+	// 	{
+	// 		local_irq_disable();
+	// 		SUM_LOCK = 1;			
+	// 		WAKE_UP(psum_waitq);
+	// 		local_irq_enable();
+	// 		uart_putc('%');
+	// 		uart_puthexnl(tmp_sum);
+	// 		break;
+	// 	}
 
-		tmp_sum++;
-		SUM = tmp_sum;
+	// 	tmp_sum++;
+	// 	SUM = tmp_sum;
 
-		local_irq_disable();
-		SUM_LOCK = 1;
-		//uart_putc('%');
-		//uart_puthexnl(tmp_sum);
-		WAKE_UP(psum_waitq);
-		local_irq_enable();	
+	// 	local_irq_disable();
+	// 	SUM_LOCK = 1;
+	// 	//uart_putc('%');
+	// 	//uart_puthexnl(tmp_sum);
+	// 	WAKE_UP(psum_waitq);
+	// 	local_irq_enable();	
 
-		count++;
-	}
+	// 	count++;
+	// }
 
-	local_irq_disable();
-	uart_puts("sum in task");
-	(arg == 1) ? uart_putc('1') : uart_putc('2');
-	uart_puts(":");
-	uart_puthexnl(SUM);
+	// local_irq_disable();
+	// uart_puts("sum in task");
+	// (arg == 1) ? uart_putc('1') : uart_putc('2');
+	// uart_puts(":");
+	// uart_puthexnl(SUM);
 
-	uart_puts("count in task");
-	(arg == 1) ? uart_putc('1') : uart_putc('2');
-	uart_puts(":");
-	uart_puthexnl(count);
-	local_irq_enable();
+	// uart_puts("count in task");
+	// (arg == 1) ? uart_putc('1') : uart_putc('2');
+	// uart_puts(":");
+	// uart_puthexnl(count);
+	// local_irq_enable();
 
-	while(1);	
+	// while(1);	
 }

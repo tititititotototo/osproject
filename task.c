@@ -104,6 +104,16 @@ static int count = 0;
 void schedule(void)
 {	
 	current = depriorQ(active);
+
+	if (current == NULL)
+	{
+		priorQ *tmp;
+		tmp = active;
+		active = expired;
+		expired = tmp;
+		current = depriorQ(active);
+	}
+	
 	next = current;
 	flush_cache_tlb();
 
